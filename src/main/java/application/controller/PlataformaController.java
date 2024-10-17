@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import application.model.Plataforma;
+import application.record.PlataformaDTO;
 import application.repository.PlataformaRepository;
 
 @RestController
@@ -17,12 +18,12 @@ public class PlataformaController {
     private PlataformaRepository plataformaRepo;
 
     @GetMapping
-    public Iterable<Plataforma> list() {
-        return plataformaRepo.findAll();
+    public Iterable<PlataformaDTO> list() {
+        return plataformaRepo.findAll().stream().map(PlataformaDTO::new).toList();
     }
 
     @PostMapping
-    public Plataforma insert(@RequestBody Plataforma plataforma) {
-        return plataformaRepo.save(plataforma);
+    public PlataformaDTO insert(@RequestBody PlataformaDTO plataforma) {
+        return new PlataformaDTO(plataformaRepo.save(new Plataforma(plataforma)));
     }
 }
