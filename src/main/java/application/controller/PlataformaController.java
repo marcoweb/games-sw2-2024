@@ -10,20 +10,21 @@ import org.springframework.web.bind.annotation.RestController;
 import application.model.Plataforma;
 import application.record.PlataformaDTO;
 import application.repository.PlataformaRepository;
+import application.service.PlataformaService;
 
 @RestController
 @RequestMapping("/plataformas")
 public class PlataformaController {
     @Autowired
-    private PlataformaRepository plataformaRepo;
+    private PlataformaService plataformaSrv;
 
     @GetMapping
     public Iterable<PlataformaDTO> list() {
-        return plataformaRepo.findAll().stream().map(PlataformaDTO::new).toList();
+        return plataformaSrv.getAll();
     }
 
     @PostMapping
     public PlataformaDTO insert(@RequestBody PlataformaDTO plataforma) {
-        return new PlataformaDTO(plataformaRepo.save(new Plataforma(plataforma)));
+        return plataformaSrv.insertOne(plataforma);
     }
 }
